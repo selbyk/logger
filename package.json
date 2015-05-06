@@ -1,0 +1,21 @@
+{
+  "name": "logger",
+  "version": "1.0.0",
+  "description": "### Todo 1. ~~Get Loadavg every second~~ 2. ~~Get unprocessed image from db if load < 50%~~ 3. ~~Download remote image~~ 4. ~~Save/Resize image~~ 5. ~~Upload image to aws s3~~ 6. ~~Update image in db~~ 7. ~~Localhost~~ 8. ~~Vagrant~~ 9. Bee 10. Live",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.12.3",
+    "cors": "^2.6.0",
+    "express": "^4.12.3",
+    "express-json": "^1.0.0",
+    "lodash": "^3.8.0",
+    "mysql": "^2.6.2",
+    "promise": "^7.0.1",
+    "sequelize": "^2.1.0"
+  }
+}

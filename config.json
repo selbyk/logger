@@ -1,0 +1,38 @@
+{
+  "db": {
+    "username": "root",
+    "password": null,
+    "database": "logs",
+    "host": "127.0.0.1",
+    "port": 3306,
+    "dialect": "mysql",
+    "storage": null
+  },
+  "local": {
+    "username": "spare_hanger",
+    "password": "mwb6ulg14eb8",
+    "database": "spare_hanger",
+    "host": "127.0.0.1",
+    "port": 3306,
+    "dialect": "sqlite",
+    "storage": "db.sqlite"
+  },
+  "development": {
+    "username": "spare_hanger",
+    "password": "mwb6ulg14eb8",
+    "database": "spare_hanger",
+    "host": "127.0.0.1",
+    "port": 3306,
+    "dialect": "mysql",
+    "storage": null
+  },
+  "production": {
+    "username": "spare_hanger",
+    "password": "mwb6ulg14eb8",
+    "database": "spare_hanger",
+    "host": "127.0.0.1",
+    "port": 3306,
+    "dialect": "mysql",
+    "storage": null
+  }
+}
