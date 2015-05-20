@@ -24,7 +24,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     parent: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: true
     },
     size: {
@@ -32,7 +32,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     }
   }, {
-    hooks: {
+    /*hooks: {
       afterBulkCreate: function(instances, options, fn) {
         sequelize.query("UPDATE dir AS d " +
             "JOIN dir AS p ON d.path REGEXP CONCAT('^', p.path, '/?[^/]+$') AND d.time = p.time " +
@@ -42,6 +42,6 @@ module.exports = function(sequelize, DataTypes) {
             fn(null, instances);
           });
       }
-    }
+    }*/
   });
 };

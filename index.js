@@ -23,51 +23,31 @@ app.get('/dirs', function(req, res) {
       },
       order: [
         ['time', 'DESC']
-      ],
-      include: [{
-        model: global.db.dir,
-        as: 'children',
-        include: {
-          model: global.db.dir,
-          as: 'children',
-          attributes: ['id']
-        }
-      }]
+      ]
     })
     .then(function(dir) {
-      var payload = {
-        dirs: []
-      };
-      var dirData = dir.dataValues;
-      dirData.children.forEach(function(child) {
-        var newchild = child.dataValues;
-        newchild.children = [];
-        var newchildren = child.children.forEach(function(grandchild) {
-          newchild.children.push(grandchild.id);
-        });
-        payload.dirs.push(newchild);
-      });
-      dirData.children = dirData.children.map(function(child) {
-        return child.id;
-      });
-      dirData.id = 1;
-      payload.dirs.push(dirData);
-      res.send(payload);
-      /*if (dir) {
-        var dirData = dir.dataValues;
-        dirData.id = 1;
-        dirData.children = [];
-        db.sequelize.query("SELECT * FROM dir WHERE path REGEXP '^" +
-            dirData.path + "[^/]+$' AND time = " + dirData.time + ";", db.dir)
-          .then(function(dirs) {
-            for (var i = 0; i < dirs.length; ++i) {
-              dirData.children.push(dirs[i].dataValues.id);
-              payload.dirs.push(dirs[i].dataValues);
-            }
-            payload.dirs.push(dirData);
-            res.send(payload);
+      db.dir.findAll({
+          where: {
+            parent: dir.path,
+            time: dir.time
+          },
+          order: [
+            ['path']
+          ]
+        })
+        .then(function(children) {
+          var payload = {
+            dirs: []
+          };
+          console.log(children);
+          var dirData = dir.dataValues;
+          dirData.children = children.map(function(child) {
+            return child.dataValues.id;
           });
-      }*/
+          dirData.id = 1;
+          payload.dirs.push(dirData);
+          res.send(payload);
+        });
     });
 });
 
@@ -86,66 +66,42 @@ app.get('/dirs/:id', function(req, res) {
       where: where,
       order: [
         ['time', 'DESC']
-      ],
-      include: [{
-        model: global.db.dir,
-        as: 'children',
-        include: {
-          model: global.db.dir,
-          as: 'children',
-          attributes: ['id']
-        }
-      }, {
-        model: global.db.dir,
-        as: 'parentModel',
-        include: {
-          model: global.db.dir,
-          as: 'children',
-          attributes: ['id']
-        }
-      }]
+      ]
     })
     .then(function(dir) {
-      var payload = {
-        dirs: []
-      };
-      var dirData = _.omit(dir.dataValues, ['parentModel']);
-      if (dir.dataValues.parentModel) {
-        var parent = dir.dataValues.parentModel.dataValues;
-        parent.children = parent.children.map(function(child) {
-          return child.id;
+      db.dir.find({
+          where: {
+            path: dir.parent,
+            time: dir.time
+          },
+          order: [
+            ['path']
+          ]
+        })
+        .then(function(parent) {
+          db.dir.findAll({
+              where: {
+                parent: dir.path,
+                time: dir.time
+              },
+              order: [
+                ['path']
+              ]
+            })
+            .then(function(children) {
+              var payload = {
+                dirs: []
+              };
+              console.log(children);
+              var dirData = dir.dataValues;
+              dirData.children = children.map(function(child) {
+                return child.dataValues.id;
+              });
+              dirData.parent = parent ? parent.dataValues.id : null;
+              payload.dirs.push(dirData);
+              res.send(payload);
+            });
         });
-        payload.dirs.push(parent);
-      }
-      dirData.children.forEach(function(child) {
-        var newchild = child.dataValues;
-        newchild.children = [];
-        var newchildren = child.children.forEach(function(grandchild) {
-          newchild.children.push(grandchild.id);
-        });
-        payload.dirs.push(newchild);
-      });
-      dirData.children = dirData.children.map(function(child) {
-        return child.id;
-      });
-      dirData.id = req.params.id;
-      payload.dirs.push(dirData);
-      res.send(payload);
-      /*if (dir) {
-        var dirData = dir.dataValues;
-        dirData.id = Number.parseInt(req.params.id);
-        dirData.children = [];
-        db.sequelize.query("SELECT * FROM dir WHERE path REGEXP '^" +
-            dirData.path + "/?[^/]+$' AND time = " + dirData.time + ";", db.dir)
-          .then(function(dirs) {
-            for (var i = 0; i < dirs.length; ++i) {
-              dirData.children.push(dirs[i].dataValues.id);
-              payload.dirs.push(dirs[i].dataValues);
-            }
-            payload.dirs.push(dirData);
-            res.send(payload);
-          });
-      }*/
     });
 });
 

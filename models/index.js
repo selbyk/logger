@@ -211,44 +211,6 @@ if (!global.hasOwnProperty('db')) {
       // add your other models here
   };
 
-  global.db.dir.belongsTo(global.db.dir, {
-    foreignKey: 'parent',
-    as: 'parentModel'
-  });
-  global.db.dir.hasMany(global.db.dir, {
-    foreignKey: 'parent',
-    as: 'children'
-  });
-
-  //RELATIONS-------------
-  //since ember takes care of one-to-one relations, the only relations we need
-  //to worry about on the server side is those with one-to-many relations
-  //ex: outfit has many tags, category has many subcategories, ect.
-  // global.db.category.hasMany(global.db.subcategory, {
-  //   foreignKey: 'category_one_id'
-  // });
-  // global.db.item.hasMany(global.db.favorite, {
-  //   foreignKey: 'object_id'
-  // });
-  // global.db.user.hasMany(global.db.favorite, {
-  //   foreignKey: 'user_id'
-  // });
-  // global.db.user.hasMany(global.db.list, {
-  //   foreignKey: 'user_id'
-  // });
-  // global.db.user.hasMany(global.db.outfit, {
-  //   foreignKey: 'user_id'
-  // });
-  // global.db.outfit.hasMany(global.db.outfitTag, {
-  //   foreignKey: 'outfit_id',
-  // });
-  // global.db.album.hasMany(global.db.image, {
-  //   foreignKey: 'album_id',
-  // });
-  // global.db.subcategory.belongsTo(global.db.category, {
-  //   foreignKey: 'category_one_id'
-  // });
-
   /*
     Associations can be defined here. E.g. like this:
     global.db.User.hasMany(global.db.SomethingElse)
