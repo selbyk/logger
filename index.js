@@ -102,6 +102,9 @@ app.get('/dirs/:id', function(req, res) {
               }
               dirData.parent = parent ? parent.dataValues.id : null;
               payload.dirs.push(dirData);
+              children.forEach(function(child) {
+                payload.dirs.push(child.dataValues);
+              });
               res.send(payload);
             });
         });
