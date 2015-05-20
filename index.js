@@ -97,6 +97,9 @@ app.get('/dirs/:id', function(req, res) {
               dirData.children = children.map(function(child) {
                 return child.dataValues.id;
               });
+              if (req.params.id == 1) {
+                dirData.id = 1;
+              }
               dirData.parent = parent ? parent.dataValues.id : null;
               payload.dirs.push(dirData);
               res.send(payload);
