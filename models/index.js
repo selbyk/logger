@@ -51,7 +51,7 @@ if (!global.hasOwnProperty('db')) {
     // - default is empty
     // - currently supported: 'mysql', 'mariadb'
     dialectOptions: {
-      //socketPath: '/Applications/MAMP/tmp/mysql/mysql.sock',
+      socketPath: '/var/run/mysqld/mysqld.sock',
       supportBigNumbers: true,
       bigNumberStrings: true
     },
